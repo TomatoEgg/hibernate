@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		 <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		 <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		 <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/test</property>
+		 <property name="hibernate.connection.username">root</property>
+		 
+		 <!-- The default password for mysql is empty -->
+		 <property name="hibernate.connection.password"></property>
+		 <property name="show_sql">true</property>
+		 <!-- No need for User.hbm.xml since we use annotations -->
+		 <!-- <mapping resource="User.hbm.xml"></mapping> -->
+		 
+		 <!-- Configure hibernate to automatically to drop and create a clean database each time we deploy, 
+		      so that our database is in a known state -->
+		 <property name="hibernate.hbm2ddl.auto">create-drop</property>
+		 <!-- Since we use annotations, we need to specific the annotated class -->
+		 <mapping class="com.jx.hibernate.User"/>
+	</session-factory>
+</hibernate-configuration>
