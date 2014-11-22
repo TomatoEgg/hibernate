@@ -55,11 +55,11 @@ public class EmployeeDetail {
     this.country = country;
   }
 
-  public Employee getEmployee() {
+  public OneToOneEmployee getEmployee() {
     return employee;
   }
 
-  public void setEmployee(Employee employee) {
+  public void setEmployee(OneToOneEmployee employee) {
     this.employee = employee;
   }
 
@@ -83,7 +83,7 @@ public class EmployeeDetail {
    
   @OneToOne
   @PrimaryKeyJoinColumn
-  private Employee employee;
+  private OneToOneEmployee employee;
 
   public EmployeeDetail() {
 

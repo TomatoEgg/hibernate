@@ -20,10 +20,12 @@
 		 
 		 <!-- Configure hibernate to automatically to drop and create a clean database each time we deploy, 
 		      so that our database is in a known state -->
-		 <property name="hibernate.hbm2ddl.auto">create</property>
+		 <property name="hibernate.hbm2ddl.auto">create-drop</property>
 		 <!-- Since we use annotations, we need to specific the annotated class -->
 		 <mapping class="com.jx.hibernate.User"/>
-		 <mapping class="com.jx.hibernate.onetoone.Employee"/>
+		 <mapping class="com.jx.hibernate.onetoone.OneToOneEmployee"/>
 		 <mapping class="com.jx.hibernate.onetoone.EmployeeDetail"/>
+		 <mapping class="com.jx.hibernate.onetomany.OneToManyEmployee"/>
+		 <mapping class="com.jx.hibernate.onetomany.Department"/>
 	</session-factory>
 </hibernate-configuration>

@@ -7,14 +7,56 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.jx.hibernate.onetoone.Employee;
+import com.jx.hibernate.onetomany.Department;
+import com.jx.hibernate.onetomany.OneToManyEmployee;
+import com.jx.hibernate.onetoone.OneToOneEmployee;
 import com.jx.hibernate.onetoone.EmployeeDetail;
  
 public class Run {
   public static void main(String[] args) {
     WriteAndReadOneUser();
     OneToOneMapping();
+    OneToManyMapping();
     cleanup();
+  }
+
+  private static void OneToManyMapping() {
+    System.out.println("*****OneToManyMapping*****");
+    
+    Session session = HibernateSessionManager.getSessionFactory().openSession();
+    session.beginTransaction();
+
+    Department department = new Department();
+    department.setDepartmentName("Sales");
+    session.save(department);
+    com.jx.hibernate.onetomany.OneToManyEmployee emp1 = new com.jx.hibernate.onetomany.OneToManyEmployee("Nina", "Mayers", "111");
+    com.jx.hibernate.onetomany.OneToManyEmployee emp2 = new com.jx.hibernate.onetomany.OneToManyEmployee("Tony", "Almeida", "222");
+
+    emp1.setDepartment(department);
+    emp2.setDepartment(department);
+     
+    session.save(emp1);
+    session.save(emp2);
+
+    session.getTransaction().commit();
+    
+    //Read them from DB and print them
+    {
+      System.out.println("results after adding employees");
+      List<OneToManyEmployee> employees = session.createQuery("from OneToManyEmployee").list();
+      for (OneToManyEmployee employee1 : employees) {
+        System.out.println(employee1.getFirstname() + " , " + 
+            employee1.getLastname() + ", " + 
+            employee1.getDepartment().getDepartmentName() + " , " +
+            employee1.getDepartment().getDepartmentId());
+      }
+      List<Department> dp = session.createQuery("from Department").list();
+      for (Department d : dp)
+      {
+        System.out.println(d.getDepartmentName() + " , " + d.getDepartmentId());
+      }
+    }
+    session.close();
   }
 
   private static void cleanup() {
@@ -28,21 +70,21 @@ public class Run {
     session.beginTransaction();
 
     EmployeeDetail employeeDetail = new EmployeeDetail("10th Street", "LA", "San Francisco", "U.S.");
-    Employee employee = new Employee("Nina", "Mayers", new java.sql.Date(121212), "114-857-965");
+    OneToOneEmployee employee = new OneToOneEmployee("Nina", "Mayers", new java.sql.Date(121212), "114-857-965");
     employee.setEmployeeDetail(employeeDetail);
     employeeDetail.setEmployee(employee);
     session.save(employee);
     
     employeeDetail = new EmployeeDetail("9th Street", "LA", "San Francisco", "U.S.");
-    employee = new Employee("Sofia", "Xie", new java.sql.Date(141414), "0731245789");
+    employee = new OneToOneEmployee("Sofia", "Xie", new java.sql.Date(141414), "0731245789");
     employee.setEmployeeDetail(employeeDetail);
     employeeDetail.setEmployee(employee);
     session.save(employee);
 
     {
       System.out.println("results after adding employees");
-      List<Employee> employees = session.createQuery("from Employee").list();
-      for (Employee employee1 : employees) {
+      List<OneToOneEmployee> employees = session.createQuery("from OneToOneEmployee").list();
+      for (OneToOneEmployee employee1 : employees) {
         System.out.println(employee1.getFirstname() + " , " + 
             employee1.getLastname() + ", " + 
             employee1.getEmployeeDetail().getState());
@@ -65,8 +107,8 @@ public class Run {
     
     {
       System.out.println("results after deleting the last employee");
-      List<Employee> employees = session.createQuery("from Employee").list();
-      for (Employee employee1 : employees) {
+      List<OneToOneEmployee> employees = session.createQuery("from OneToOneEmployee").list();
+      for (OneToOneEmployee employee1 : employees) {
         System.out.println(employee1.getFirstname() + " , " + 
             employee1.getLastname() + ", " + 
             employee1.getEmployeeDetail().getState());

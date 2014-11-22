@@ -9,7 +9,7 @@ public class HibernateSessionManager {
   private static SessionFactory sessionFactory = createSessionFactory();
   private static ServiceRegistry serviceRegistry;
 
-  public static SessionFactory createSessionFactory() 
+  private static SessionFactory createSessionFactory() 
   {
      Configuration configuration = new Configuration();
      configuration.configure();
@@ -42,6 +42,7 @@ public class HibernateSessionManager {
   public static void shutdown() 
   {
     // Close caches and connection pools
+    System.out.println("Shutting down");
     sessionFactory.close();
   }
 }

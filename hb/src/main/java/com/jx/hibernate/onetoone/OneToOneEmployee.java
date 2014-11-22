@@ -12,8 +12,8 @@ import javax.persistence.Table;
  
  
 @Entity
-@Table(name="EMPLOYEE")
-public class Employee {
+@Table(name="ONETOONE_EMPLOYEE")
+public class OneToOneEmployee {
  
     @Id
     @GeneratedValue
@@ -83,11 +83,11 @@ public class Employee {
     @OneToOne(mappedBy="employee", cascade=CascadeType.ALL)
     private EmployeeDetail employeeDetail;
      
-    public Employee() {
+    public OneToOneEmployee() {
          
     }
      
-    public Employee(String firstname, String lastname, Date birthdate, String phone) {
+    public OneToOneEmployee(String firstname, String lastname, Date birthdate, String phone) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthDate = birthdate;
